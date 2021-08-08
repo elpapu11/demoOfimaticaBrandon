@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  mysql:
+    container_name: mysqlOfimatica2
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=secreto
+      - MYSQL_DATABASE=BDEjemplo
+    expose:
+      - 3306
+    volumes:
+      -  mysqlVolume:/var/lib/mysql
+    networks:
+      - OfimaticaFinalNetwork
+    restart: unless-stopped
+
+  spring:
+    image: innovaritp/ofimatica-intensivo:2
+    ports:
+    - 8095:8080
+    networks:
+      - OfimaticaFinalNetwork
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+volumes:
+  mysqlVolume:
+
+networks:
+  OfimaticaFinalNetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.40.0.0/16
+
+

@@ -23,4 +23,5 @@ public class Persona {
     public String name;
     public String apellido;
     public Integer edad;
+    public String direccion;
 }
